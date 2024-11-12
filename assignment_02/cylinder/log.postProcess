@@ -1,0 +1,58 @@
+/*---------------------------------------------------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  2312                                  |
+|   \\  /    A nd           | Website:  www.openfoam.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+Build  : _1d8f0d55f7-20231221 OPENFOAM=2312 version=v2312
+Arch   : "LSB;label=32;scalar=64"
+Exec   : postProcess -func streamFunction
+Date   : Nov 12 2024
+Time   : 16:32:25
+Host   : n-62-27-22
+PID    : 1674239
+I/O    : uncollated
+Case   : /work3/s232439/s232439-v2312/run/assignment_02/cylinder
+nProcs : 1
+trapFpe: Floating point exception trapping enabled (FOAM_SIGFPE).
+fileModificationChecking : Monitoring run-time modified files using timeStampMaster (fileModificationSkew 5, maxFileModificationPolls 20)
+allowSystemOperations : Allowing user-supplied system call operations
+
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+Create time
+
+Create mesh for time = 0
+
+Time = 0
+
+Reading fields:
+    surfaceScalarField: phi
+
+Executing functionObjects
+    functionObjects::streamFunction streamFunction calculating stream-function
+        Zero face: patch: 0 face: 0
+        Exhausted a seed, looking for new seed (this is correct for multiply connected domains).        Zero face: patch: 0 face: 61
+        Exhausted a seed, looking for new seed (this is correct for multiply connected domains).        Zero face: patch: 0 face: 63
+        Exhausted a seed, looking for new seed (this is correct for multiply connected domains).        Zero face: patch: 0 face: 65
+        Exhausted a seed, looking for new seed (this is correct for multiply connected domains).        Zero face: patch: 0 face: 67
+        Exhausted a seed, looking for new seed (this is correct for multiply connected domains).        Zero face: patch: 0 face: 69
+        Exhausted a seed, looking for new seed (this is correct for multiply connected domains).        Zero face: patch: 0 face: 71
+        Exhausted a seed, looking for new seed (this is correct for multiply connected domains).        Zero face: patch: 0 face: 73
+        Exhausted a seed, looking for new seed (this is correct for multiply connected domains).        Zero face: patch: 0 face: 75
+        Exhausted a seed, looking for new seed (this is correct for multiply connected domains).        Zero face: patch: 0 face: 77
+        Exhausted a seed, looking for new seed (this is correct for multiply connected domains).        Zero face: patch: 0 face: 79
+        Exhausted a seed, looking for new seed (this is correct for multiply connected domains).        Zero face: patch: 0 face: 81
+        Exhausted a seed, looking for new seed (this is correct for multiply connected domains).        Zero face: patch: 0 face: 83
+        Exhausted a seed, looking for new seed (this is correct for multiply connected domains).        Zero face: patch: 0 face: 85
+        Exhausted a seed, looking for new seed (this is correct for multiply connected domains).        Zero face: patch: 0 face: 87
+        Exhausted a seed, looking for new seed (this is correct for multiply connected domains).        Zero face: patch: 0 face: 89
+        Exhausted a seed, looking for new seed (this is correct for multiply connected domains).        Zero face: patch: 0 face: 91
+        Exhausted a seed, looking for new seed (this is correct for multiply connected domains).        Zero face: patch: 0 face: 93
+        Exhausted a seed, looking for new seed (this is correct for multiply connected domains).        Zero face: patch: 0 face: 95
+        Exhausted a seed, looking for new seed (this is correct for multiply connected domains).        Zero face: patch: 0 face: 97
+        Exhausted a seed, looking for new seed (this is correct for multiply connected domains).        Zero face: patch: 0 face: 99
+    functionObjects::streamFunction streamFunction writing field: streamFunction
+
+End
+
