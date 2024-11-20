@@ -1,0 +1,27 @@
+#!/bin/sh
+cd "${0%/*}" || exit                                # Run from this directory
+. ${WM_PROJECT_DIR:?}/bin/tools/RunFunctions        # Tutorial run functions
+#------------------------------------------------------------------------------
+
+canCompile || exit 0    # Dynamic code
+
+# fix: file in folder 0.orig and not 0
+mkdir 0
+restore0Dir
+
+### mesh
+runApplication blockMesh 
+runApplication mirrorMesh
+# fix: mirrowed mesh in 0.0001 and not constant
+rm -rf constant/polyMesh
+cp -r 0.0001/polyMesh constant
+
+### solver
+runApplication pimpleFoam
+
+
+### postprocess
+touch f.foam
+
+
+#------------------------------------------------------------------------------
