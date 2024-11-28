@@ -8,6 +8,10 @@ kOmega <b>
 - modify controlDict with correct output (same as kEps)
 
 LES
-- ?
+- modify MeshDict for finer mesh
+    - implement zPlus funtion
+- remove wallfunction from nut(ilda?)
+- check I.C.'s
+- Add SEG
 
 
