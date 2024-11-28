@@ -14,10 +14,12 @@ FoamFile
 }
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
+
+
 // Define custom variables
 start       0;
-stop        0.1;
-intervalW   10;
+stop        50;
+intervalW   50;
 
 application     pimpleFoam;
 
@@ -29,7 +31,7 @@ stopAt          endTime;
 
 endTime         $stop;
 
-deltaT          0.001;
+deltaT          0.01;
 
 writeControl    timeStep;
 
@@ -56,6 +58,7 @@ functions
 {
     yPlus1
     {
+        // Mandatory entries (unmodifiable)
         type            yPlus;
         libs            ("libfieldFunctionObjects.so");
         
@@ -67,15 +70,26 @@ functions
 
     Co1
     {
+        // Mandatory entries (unmodifiable)
         type            CourantNo;
         libs            ("libfieldFunctionObjects.so");
         
-	timeStart       $start;
+	ttimeStart      $start;
 	timeEnd         $stop;
 	writeControl    timeStep;
 	writeInterval   $intervalW;
     }
     
+    //pressureCoefficient
+   // {
+     //   type            pressureCoefficient;
+      //  libs            ("libfieldFunctionObjects.so");
+       // patches         (cylinder); // Replace with your patch name
+	//timeStart       $start;
+	//timeEnd         $stop;
+	//writeControl    timeStep;
+	//writeInterval   $intervalW;
+    //}
 
     wallShearStress
     {
@@ -84,11 +98,81 @@ functions
         patches         (cylinder); // Replace with your patch name
 	timeStart       $start;
 	timeEnd         $stop;
-        writeControl    timeStep;
-        writeInterval   $intervalW;
+	writeControl    timeStep;
+	writeInterval   $intervalW;
     }
+    
+    fieldAverage1
+{
+    // Mandatory entries (unmodifiable)
+    type            fieldAverage;
+    libs            (fieldFunctionObjects);
+
+    // Mandatory entries (runtime modifiable)
+    fields
+    (
+        U
+        {
+            mean        yes;
+            prime2Mean  no;
+            base        time;
+            
+        }
+        
+        p
+        {
+            mean        yes;
+            prime2Mean  no;
+            base        time;
+           
+       }
+    );
+
+        timeStart       $start;
+	timeEnd         $stop;
+	writeControl    timeStep;
+	writeInterval   $intervalW;
+ }
+
+ forces
+    {
+        type            forces;
+        libs ("libforces.so");
+        timeStart       $start;
+	timeEnd         $stop;
+	writeControl    timeStep;
+	writeInterval   $intervalW; // Adjust based on your needs
+        patches         ("cylinder"); // The patch name for the cylinder
+        rho             rhoInf;      // If compressible, use "rho" or "rhoInf" for incompressible flow      
+        rhoInf          1.225;		// Free-stream density (for incompressible flow) 
+        CofR            (0 0 0);     // Center of rotation (e.g., cylinder center)
+
+        log             true;        // Write the forces to log file
+    }
+
+    forceCoeffs
+    {
+        type            forceCoeffs;
+        libs ("libforces.so");
+        timeStart       $start;
+	timeEnd         $stop;
+	writeControl    timeStep;
+	writeInterval   $intervalW;
+        patches         ("cylinder");
+        rho             rhoInf;      // If compressible, use "rho" or "rhoInf" for incompressible flow 
+        rhoInf          1.225;
+        CofR            (0 0 0);
+        liftDir         (0 1 0);     // Lift direction
+        dragDir         (1 0 0);     // Drag direction
+        pitchAxis       (0 0 1);     // Axis for pitching moment
+        magUInf         10;          // Free-stream velocity magnitude
+        lRef            1;           // Reference length (diameter of cylinder)
+        Aref            1;           // Reference area
+        log             true;        // Write force coefficients to log file
+    }
+
+    
 }
 
 
 // ************************************************************************* //
-
