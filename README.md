@@ -15,3 +15,8 @@ LES
 - Add SEG
 
 
+# notes
+- run job file downloaded from Git:
+- - $ chmod u+x *
+  - $ dos2unix *
+
