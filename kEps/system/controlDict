@@ -1,0 +1,94 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  v2312                                 |
+|   \\  /    A nd           | Website:  www.openfoam.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      controlDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+// Define custom variables
+start       0;
+stop        0.1;
+intervalW   10;
+
+application     pimpleFoam;
+
+startFrom       startTime;
+
+startTime       $start;
+
+stopAt          endTime;
+
+endTime         $stop;
+
+deltaT          0.001;
+
+writeControl    timeStep;
+
+writeInterval   $intervalW;
+
+purgeWrite      0;
+
+writeFormat     ascii;
+
+writePrecision  6;
+
+writeCompression off;
+
+timeFormat      general;
+
+timePrecision   6;
+
+runTimeModifiable true;
+
+functions
+// pressure coefficient (Cp); skin friction (Cf) on the cylinder;
+// velocity and turbulence profiles on the cylinder and downstream;
+
+{
+    yPlus1
+    {
+        type            yPlus;
+        libs            ("libfieldFunctionObjects.so");
+        
+	timeStart       $start;
+	timeEnd         $stop;
+	writeControl    timeStep;
+	writeInterval   $intervalW;
+    }
+
+    Co1
+    {
+        type            CourantNo;
+        libs            ("libfieldFunctionObjects.so");
+        
+	timeStart       $start;
+	timeEnd         $stop;
+	writeControl    timeStep;
+	writeInterval   $intervalW;
+    }
+    
+
+    wallShearStress
+    {
+        type            wallShearStress;
+        libs            ("libfieldFunctionObjects.so");
+        patches         (cylinder); // Replace with your patch name
+	timeStart       $start;
+	timeEnd         $stop;
+        writeControl    timeStep;
+        writeInterval   $intervalW;
+    }
+}
+
+
+// ************************************************************************* //
+
