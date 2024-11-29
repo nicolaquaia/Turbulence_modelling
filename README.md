@@ -1,19 +1,26 @@
 ## MISSING STUFF <b>
+
+REPORT <b>
+- what to plot
+- how to understand mesh (yplus, courant, ?)
+  
 kEps <b>
-- modify MeshDict with correct mesh
-- modify controlDict with correct output
+- extract graphs from paraview
+- mesh sensitivity
+- domain dimension (?)
 
 kOmega <b>
-- modify MeshDict with correct mesh (same as kEps)
-- modify controlDict with correct output (same as kEps)
+- extract graphs from paraview
+- mesh sensitivity (probably same mesh as kEps)
+
 
 LES
-- modify MeshDict for finer mesh
-    - implement zPlus funtion
-- remove wallfunction from nut(ilda?)
+- mesh accuracy (dx+, dy+, dz+ ?)
+- k model
+- 2% turbulence
+- check output same as kEps
 - check I.C.'s
 - Add SEG
-
 
 # notes
 - run job file downloaded from Git:
