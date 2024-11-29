@@ -3,6 +3,7 @@
 REPORT <b>
 - what to plot
 - how to understand mesh (yplus, courant, ?)
+- extract experimental data
   
 kEps <b>
 - extract graphs from paraview
