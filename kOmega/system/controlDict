@@ -114,12 +114,19 @@ functions
         U
         {
             mean        yes;
-            prime2Mean  no;
+            prime2Mean  yes;
             base        time;
             
         }
         
         p
+        {
+            mean        yes;
+            prime2Mean  no;
+            base        time;
+           
+       }
+       wallShearStress
         {
             mean        yes;
             prime2Mean  no;
@@ -171,6 +178,32 @@ functions
         log             true;        // Write force coefficients to log file
     }
 
+pressure1
+{
+    // Mandatory entries (unmodifiable)
+    type            pressure;
+    libs            (fieldFunctionObjects);
+
+    // Mandatory entries (runtime modifiable)
+    mode            totalCoeff;
+
+    timeStart       $start;
+    timeEnd         $stop;
+    writeControl    timeStep;
+    writeInterval   $intervalW;
+   
+    // Optional entries (runtime modifiable)
+    p               pMean;
+    U               UMean;
+    rho             rhoinf;
+    rhoInf          1.0; // enabled if rho=rhoInf
+    pRef            0.0;
+    hydroStaticMode none;
+    g               (0 -9.81 0); // enabled if hydroStaticMode != none
+    hRef            0.0;         // enabled if hydroStaticMode != none
+    pInf            0.0;
+    UInf            (1 0 0);
+}
     
 }
 
