@@ -1,0 +1,23 @@
+#!/bin/sh
+cd "${0%/*}" || exit                                # Run from this directory
+. ${WM_PROJECT_DIR:?}/bin/tools/RunFunctions        # Tutorial run functions
+#------------------------------------------------------------------------------
+
+canCompile || exit 0    # Dynamic code
+
+mkdir 0
+
+restore0Dir
+
+# add turbulence box generation
+runApplication -s createBlockMesh createBoxTurb -createBlockMesh
+runApplication decomposePar
+runParallel createBoxTurb
+
+#runApplication blockMesh 
+
+#runApplication pimpleFoam
+
+touch f.foam
+
+#------------------------------------------------------------------------------
