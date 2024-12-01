@@ -18,8 +18,8 @@ FoamFile
 
 // Define custom variables
 start       0;
-stop        0.1;
-intervalW   5;
+stop        50;
+intervalW   50;
 
 application     pimpleFoam;
 
@@ -228,6 +228,8 @@ functions
         probeLocations
         (
             (-1.5 0.000 0.000)
+            (-1.5 2.000 0.000)
+            (-1.5 -2.000 0.000)
         );
 
     }

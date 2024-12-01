@@ -18,9 +18,7 @@ FoamFile
 
 // Define custom variables
 start       0;
-//stop        50;
-//intervalW   50;
-stop        15;
+stop        50;
 intervalW   50;
 
 
@@ -84,17 +82,6 @@ functions
 	writeInterval   $intervalW;
     }
     
-    //pressureCoefficient
-   // {
-     //   type            pressureCoefficient;
-      //  libs            ("libfieldFunctionObjects.so");
-       // patches         (cylinder); // Replace with your patch name
-	//timeStart       $start;
-	//timeEnd         $stop;
-	//writeControl    timeStep;
-	//writeInterval   $intervalW;
-    //}
-
     wallShearStress
     {
         type            wallShearStress;
@@ -174,6 +161,63 @@ functions
         Aref            1;           // Reference area
         log             true;        // Write force coefficients to log file
     }
+    
+    pressure1
+	{
+	    // Mandatory entries (unmodifiable)
+	    type            pressure;
+	    libs            (fieldFunctionObjects);
+
+	    // Mandatory entries (runtime modifiable)
+	    mode            totalCoeff;
+
+	    timeStart       $start;
+	    timeEnd         $stop;
+	    writeControl    timeStep;
+	    writeInterval   $intervalW;
+	   
+	    // Optional entries (runtime modifiable)
+	    p               pMean;
+	    U               UMean;
+	    rho             rhoinf;
+	    rhoInf          1.0; // enabled if rho=rhoInf
+	    pRef            0.0;
+	    hydroStaticMode none;
+	    g               (0 -9.81 0); // enabled if hydroStaticMode != none
+	    hRef            0.0;         // enabled if hydroStaticMode != none
+	    pInf            0.0;
+	    UInf            (1 0 0);
+	}
+    
+    
+
+    probes		// copied
+    {
+        type            probes;
+        libs            (sampling);
+
+        // Name of the directory for probe data
+        name            probes;
+
+        // Write at same frequency as fields
+        writeControl    timeStep;
+        writeInterval   1;
+
+        // Fields to be probed
+        fields          (U);
+
+        // Optional: interpolation scheme to use (default is cell)
+        interpolationScheme cell;
+
+        probeLocations
+        (
+            (-1.5 0.000 0.000)
+            (-1.5 2.000 0.000)
+            (-1.5 -2.000 0.000)
+        );
+
+    }
+    
 
     
 }

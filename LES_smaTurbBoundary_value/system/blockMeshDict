@@ -21,7 +21,7 @@ rInner  0.5;
 rOuter  1;
 xmax    2.5;
 ymax    2.5;
-extensionLength  12.5;
+extensionLength  0.5;
 
 zmin   -0.5;  // Back/front locations
 zmax    0.5;
@@ -30,11 +30,11 @@ zmax    0.5;
 nRadial  	44;
 nQuarter 	14;
 nxOuter  	20;
-nxOuter2 	30;
+nxOuter2 	2;
 nyOuter  	28;
-nxExtension  	150;
+nxExtension  	1;
 nxBlock3  	40;
-nz       	8;
+nz       	14;
 
 // ----------------
 

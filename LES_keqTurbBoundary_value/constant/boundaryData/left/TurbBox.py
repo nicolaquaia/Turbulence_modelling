@@ -5,6 +5,9 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 
+# either this or just one value
+
+
 def open_boundary(file_path):
     
     # Open and process the file
@@ -46,8 +49,8 @@ def computeCentroidGrid(nQuarter = 14, nyOuter = 28, rOuter45 = np.sqrt(0.5),  y
     return points_final
 
 def interpolateCentralFlow(F, points, points_mesh, scale, velocity = False):
+	# complex version, interpolate internal flow
     points = np.array(points['y'])
-    n = F.shape[1]
     name_list = F.columns.tolist()
 
     start = np.argmax(points > 0.5)
@@ -70,6 +73,27 @@ def interpolateCentralFlow(F, points, points_mesh, scale, velocity = False):
     
     return data
 
+def interpolateCentralValue(F, points, points_mesh, scale, velocity=False):
+	# simplified version, just central value
+    points = np.array(points['y'])
+    name_list = F.columns.tolist()
+
+    left = np.argmax(points > 1)
+    right = np.argmin(points < 1)
+    
+    data = {}
+    for name in name_list:
+        value = (F[name].iloc[left] + F[name].iloc[right])/2
+        data[name] = np.ones(len(points_mesh))*value * scale
+    
+    if velocity == True:
+        data = {
+            'x': np.ones(len(points_mesh)),
+            'y': np.zeros(len(points_mesh)),
+            'z': np.zeros(len(points_mesh))
+        }
+    
+    return data
 
 
 def save_output(data, filepath, length=False):
@@ -92,19 +116,15 @@ def save_output(data, filepath, length=False):
         f.write(")\n")  # Close parenthesis for the block
 
 
-def plot_original(points, U, L, R):
+def plot_original(points, U, L, R, vertical  = False):
 
     fig1, axs1 = plt.subplots(1, 3, num=2, figsize=(10,3.5), clear=True)
     axs1[0].plot(points['y'], U['x'])
     axs1[0].set_ylabel("horizontal velocity U")
-    axs1[0].axvline(x=0.5, color='k', linestyle='--')
-    axs1[0].axvline(x=1, color='k', linestyle='--')
     axs1[0].set_xlabel("y")
     axs1[0].grid(True)
 
     axs1[1].plot(points['y'], L['l'])
-    axs1[1].axvline(x=0.5, color='k', linestyle='--')
-    axs1[1].axvline(x=1, color='k', linestyle='--')
     axs1[1].set_ylabel("length scale L")
     axs1[1].set_xlabel("y")
     axs1[1].grid(True)
@@ -115,16 +135,21 @@ def plot_original(points, U, L, R):
     axs1[2].plot(points['y'], R['xy'], label='xy')
     axs1[2].plot(points['y'], R['xz'], label='xz')
     axs1[2].plot(points['y'], R['yz'], label='yz')
-    axs1[2].axvline(x=0.5, color='k', linestyle='--')
-    axs1[2].axvline(x=1, color='k', linestyle='--')
     axs1[2].set_ylabel("Reynolds Stress Tensor R")
     axs1[2].set_xlabel("y")
     axs1[2].legend()
     axs1[2].grid(True)
 
+    if vertical:
+        axs1[0].axvline(x=0.5, color='k', linestyle='--')
+        axs1[0].axvline(x=1.5, color='k', linestyle='--')
+        axs1[1].axvline(x=0.5, color='k', linestyle='--')
+        axs1[1].axvline(x=1.5, color='k', linestyle='--')
+        axs1[2].axvline(x=0.5, color='k', linestyle='--')
+        axs1[2].axvline(x=1.5, color='k', linestyle='--')
+
     plt.tight_layout()
     #plt.savefig('given_points.pdf', format='pdf')
-    plt.show()
 
 
 def main():
@@ -132,20 +157,21 @@ def main():
     import matplotlib.pyplot as plt
     import numpy as np
 
-    scale = 1
+    scale = 0.1
     
     points = open_boundary('points_orig')
     U      = open_boundary('0/U_orig')
     L      = open_boundary('0/L_orig')
     R      = open_boundary('0/R_orig')
 
-    plot_original(points, U, L, R)
+    #plot_original(points, U, L, R, vertical=True)
+    #plt.show()
 
     points_mesh = computeCentroidGrid()
 
-    U_new = interpolateCentralFlow(U, points, points_mesh, scale, velocity=True)
-    L_new = interpolateCentralFlow(L, points, points_mesh, scale)
-    R_new = interpolateCentralFlow(R, points, points_mesh, scale)
+    U_new = interpolateCentralValue(U, points, points_mesh, scale, velocity=True)
+    L_new = interpolateCentralValue(L, points, points_mesh, scale)
+    R_new = interpolateCentralValue(R, points, points_mesh, scale)
     points_out = {
         'x':np.zeros(len(points_mesh)),
         'y':points_mesh,
@@ -157,8 +183,9 @@ def main():
     save_output(L_new, "0/L", length = True)
     save_output(R_new, "0/R")
 
-    plot_original(points_out, U_new, L_new, R_new)
+    #plot_original(points_out, U_new, L_new, R_new)
+    #plt.show()
 
 
-main()
-
+if __name__ == "__main__":
+    main()
