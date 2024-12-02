@@ -89,7 +89,7 @@ def main():
     # print(f'intensity top    : {np.mean(intensity['probe1']):.3f}%')
     # print(f'intensity bottom : {np.mean(intensity['probe2']):.3f}%')
 
-    data_name = ['U_keq_inter', 'U_keq_value', 'U_sma_inter', 'U_sma_value']
+    data_name = ['U_keq_inter', 'U_keq_value', 'U_sma_inter', 'U_sma_value', 'U_keq_final', 'u_sma_final']
     offset = 5
 
     fig, axs = plt.subplots(1, len(data_name), num=2, figsize=(12,6), clear=True)
