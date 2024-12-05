@@ -7,6 +7,9 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
 
+plt.rcParams.update({'font.size': 14})  # Change 14 to your desired font size
+
+
 
 def open_boundary(file_path):
 
@@ -48,7 +51,6 @@ def open_boundary(file_path):
 
     
 
-
 def compute_intensity(U, start):
 
     filtered_U = U[U['time'] > start]
@@ -89,10 +91,10 @@ def main():
     # print(f'intensity top    : {np.mean(intensity['probe1']):.3f}%')
     # print(f'intensity bottom : {np.mean(intensity['probe2']):.3f}%')
 
-    data_name = ['U_keq_inter', 'U_keq_value', 'U_sma_inter', 'U_sma_value', 'U_keq_final', 'u_sma_final']
-    offset = 5
+    #data_name = ['U_keq_inter', 'U_keq_value', 'U_sma_inter', 'U_sma_value', 'U_keq_final', 'u_sma_final']
+    data_name = ['U_keq_inter', 'U_sma_inter', 'U_keq_value', 'U_smaRef']
 
-    fig, axs = plt.subplots(1, len(data_name), num=2, figsize=(12,6), clear=True)
+    fig, axs = plt.subplots(3, len(data_name), num=2, figsize=(12,6), clear=True)
     for idx, name in enumerate(data_name):
         U = open_boundary(name)
         intensity = compute_intensity(U, start_time)
@@ -101,43 +103,53 @@ def main():
         mean1 = np.mean(intensity['probe1'])
         mean2 = np.mean(intensity['probe2'])
 
-        axs[idx].plot(intensity['time'], intensity['probe0']  )
-        axs[idx].axhline(y=mean0, color='k', linestyle='--')
-        axs[idx].text(
+        axs[1,idx].plot(intensity['time'], intensity['probe0'], color='b')
+        axs[1,idx].axhline(y=mean0, color='k', linestyle='--')
+        axs[1,idx].text(
             x=0.5 * (intensity['time'].min() + intensity['time'].max()),  # Midpoint of the x-range
             y=mean0 + 0.1,  # Slightly above the line
             s=f'{mean0:.3f}%',
             color='k',
-            fontsize=10,
             ha='center',  # Horizontal alignment
             bbox=dict(facecolor='white', boxstyle='round,pad=0.5')  # White background box
         )
 
-        axs[idx].plot(intensity['time'], intensity['probe0']+offset)
-        axs[idx].text(
+        axs[0,idx].plot(intensity['time'], intensity['probe1'], color='g')
+        axs[0,idx].axhline(y=mean1, color='k', linestyle='--')
+        axs[0,idx].text(
             x=0.5 * (intensity['time'].min() + intensity['time'].max()),  # Midpoint of the x-range
-            y=mean1 + offset+ 0.1,  # Slightly above the line
+            y=mean1 + 0.1,  # Slightly above the line
             s=f'{mean1:.3f}%',
             color='k',
-            fontsize=10,
             ha='center',  # Horizontal alignment
             bbox=dict(facecolor='white', boxstyle='round,pad=0.5')  # White background box
         )
-        axs[idx].plot(intensity['time'], intensity['probe0']-offset)
-        axs[idx].text(
+        axs[2,idx].plot(intensity['time'], intensity['probe2'], color='r')
+        axs[2,idx].axhline(y=mean2, color='k', linestyle='--')
+        axs[2,idx].text(
             x=0.5 * (intensity['time'].min() + intensity['time'].max()),  # Midpoint of the x-range
-            y=mean2 - offset + 0.1,  # Slightly above the line
+            y=mean2+ 0.1,  # Slightly above the line
             s=f'{mean2:.3f}%',
             color='k',
-            fontsize=10,
             ha='center',  # Horizontal alignment
             bbox=dict(facecolor='white', boxstyle='round,pad=0.5')  # White background box
         )
-        axs[idx].grid()
-        axs[idx].set_xlabel("time")
-        axs[idx].set_ylabel("turbulence intensity [%]")
-        axs[idx].set_title(name)
+
+        #axs[idx].plot(intensity['time'], np.ones(len(intensity['time']))*0, color='k')
+        #axs[idx].plot(intensity['time'], np.ones(len(intensity['time']))*(+offset), color='k')
+        #axs[idx].plot(intensity['time'], np.ones(len(intensity['time']))*(-offset), color='k')
+
+        axs[0,idx].grid()
+        axs[1,idx].grid()
+        axs[2,idx].grid()
+
+        axs[2,idx].set_xlabel("time")
+        if idx == 0:
+            axs[1,idx].set_ylabel("turbulence intensity [%]")
+        axs[0,idx].set_title(name)
+
     plt.tight_layout()
+    #plt.savefig('turbulent_intensity.pdf', format='pdf')
     plt.show()
 
 
