@@ -1,7 +1,7 @@
 # Turbulence Modelling Course Report
 
 ## Overview
-This report examines the fluid flow over a smooth cylinder and the associated vortex shedding at a Reynolds number (Re) of 3900. This value places the flow within the transitional regime, where the inlet flow is initially laminar, but perturbations around the cylinder generate turbulent eddies that are periodically shed along its wake [1].
+This report examines the fluid flow over a smooth cylinder and the associated vortex shedding at a Reynolds number (Re) of 3900. This value places the flow within the transitional regime, where the inlet flow is initially laminar, but perturbations around the cylinder generate turbulent eddies that are periodically shed along its wake.
 
 ### Key Objectives
 1. Analyze flow dynamics over a smooth cylinder.
