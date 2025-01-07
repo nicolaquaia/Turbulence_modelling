@@ -21,7 +21,8 @@ Two categories of turbulence models are utilized:
 
 Additionally, a turbulent inflow with a Turbulent Intensity of 2% is generated using the Divergence-Free Synthetic Eddy Method (DFSEM) for LES models.
 
----
+## RANS modeling of fully developed turbulent channel flows
+Moreover, a 1D channel flow simulation is developed with a MATLAB script. The mathematical derivation are described for the 1-equation Prandtl’s model. An attempt to use the k-epsilon model is proposed. The effect of the Van Driest damping function is analyzed.
 
 ## Group Members
 - Janne W.S. Jacobs, s244050
